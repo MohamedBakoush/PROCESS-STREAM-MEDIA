@@ -1,0 +1,19 @@
+<template>
+  <i class="gg-maximize"></i>
+</template>
+
+<style scoped>
+.gg-maximize {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 14px;
+    height: 14px;
+    box-shadow:
+        -6px -6px 0 -4px,
+        6px 6px 0 -4px,
+        6px -6px 0 -4px,
+        -6px 6px 0 -4px
+}
+</style>
