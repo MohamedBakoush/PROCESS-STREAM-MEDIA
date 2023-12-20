@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  # PSQL Database:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: process-video-xxx
+    ports:
+      - "5432:5432" 
+    volumes:
+      - psql-data:/var/lib/postgresql/data
+      - ./assets/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # stream:
+  nginx-stream:
+    build: ./stream/nginx
+    stdin_open: true
+    tty: true
+    ports: 
+      - "433:433"
+    environment:
+      - HTTP_PORT=433 
+    volumes:
+      - permanent-media:/var/www/html/media
+  proxy-stream:
+    build: ./stream/proxy
+    ports: 
+      - "1935:5000"
+    env_file: .env
+    depends_on: 
+      - db
+    volumes:
+      - permanent-media:/var/www/html/media
+
+  # upload:
+  upload: 
+    build: ./upload
+    ports:
+      - "1945:5000"
+    env_file: .env
+    volumes:
+      - permanent-media:/var/www/html/media
+
+volumes: 
+  psql-data:
+  permanent-media:
