@@ -15,11 +15,13 @@
   "devDependencies": {
     "@nuxt/devtools": "^0.8.0",
     "@nuxthq/ui": "^2.7.0",
+    "@prisma/client": "^5.7.1",
     "@tresjs/cientos": "^3.1.0",
     "@tresjs/nuxt": "^1.1.3",
     "@types/node": "^20.5.2",
     "@types/three": "^0.155.0",
     "nuxt": "^3.6.5",
+    "prisma": "^5.7.1",
     "sass": "^1.66.1",
     "three": "^0.155.0",
     "three-custom-shader-material": "^5.4.0"
