@@ -6,4 +6,19 @@ While WatchVideoByLink has many flaws, some more obvious than others, at the tim
 
 PROCESS-VIDEO-XXX is a homage to WatchVideoByLink, aiming to improve my creation from scratch, developing something I can track and maintain until I die or lose interest.
 
-### let us begin
+## PROGRESS
+
+CLIENT SERVER:
+- UPLOAD VIDEO 
+- SELECT UPLOADED VIDEO
+- WATCH UPLOADED VIDEO
+
+STREAM SERVER:
+- PYTHON FLASK PROXY 
+- NGINX VIDEO/IMAGE MEDIA STREAM 
+
+UPLOAD SERVER:
+- DOWNLOAD UPLOADED VIDEO
+- RE-ENCODE VIDEO + DELETE UPLOADED VIDEO
+- GENERATE THUMBNAILS 
+- CURRENT PROGRESS
