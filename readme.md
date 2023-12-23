@@ -6,12 +6,13 @@ While WatchVideoByLink has many flaws, some more obvious than others, at the tim
 
 PROCESS-VIDEO-XXX is a homage to WatchVideoByLink, aiming to improve my creation from scratch, developing something I can track and maintain until I die or lose interest.
 
-## PROGRESS
+## PROTOTYPE - DONE - NOW MVP
 
 CLIENT SERVER:
 - UPLOAD VIDEO 
 - SELECT UPLOADED VIDEO
 - WATCH UPLOADED VIDEO
+- PRISMA (CONNECT TO PSQL DATABASE)
 
 STREAM SERVER:
 - PYTHON FLASK PROXY 
@@ -23,5 +24,10 @@ UPLOAD SERVER:
 - GENERATE THUMBNAILS 
 - CURRENT PROGRESS
 
-## WHAT'S LEFT FOR MVP 
-USER AUTHENTICATION
+SUPABASE DATABASE: 
+- USER AUTHENTICATION 
+
+PSQL DATABASE:
+- INFO
+- VIDEOS
+- THUMBNAILS

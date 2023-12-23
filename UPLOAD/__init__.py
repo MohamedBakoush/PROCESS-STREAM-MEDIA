@@ -23,6 +23,11 @@ def allowed_file(filename):
 @app.route('/upload', methods=['POST'])
 def upload_file():
     app.logger.info('UPLOAD_FOLDER: %s', app.config['UPLOAD_FOLDER'])
+    
+    supabase_user_id = request.form.get('supabase_user_id')
+    if not supabase_user_id:
+        return jsonify({'error': 'Supabase user ID is required'}), 400
+
     if 'file' not in request.files:
         app.logger.error('No file part in the request')
         return jsonify({'error': 'No file part'}), 400
@@ -49,7 +54,7 @@ def upload_file():
         video_processor = VideoProcessor(db_manager, video_status, image_processor, app.logger)
 
         # Process video and create thumbnails
-        video_processor.ffmpeg_progress(temp_path, app.config['UPLOAD_FOLDER'])
+        video_processor.ffmpeg_progress(temp_path, app.config['UPLOAD_FOLDER'], supabase_user_id)
 
         # Close the database connection
         db_manager.db_connection.close()

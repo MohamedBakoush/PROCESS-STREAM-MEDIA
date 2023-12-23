@@ -1,12 +1,11 @@
 import ffmpeg
 import os
-
 class ImageProcessor:
     def __init__(self, db_manager, video_status, logger):
         self.db_manager = db_manager
         self.video_status = video_status
         self.logger = logger
-        
+
     def create_thumbnails(self, video_file, output_path, file_name_uuid, number_of_images=8, file_type=".jpg"):
         duration = self.video_status.get_video_duration(video_file)
         if duration <= 0:
@@ -23,10 +22,10 @@ class ImageProcessor:
                 thumb_file_name = f"{file_name_uuid}-thumbnail{i:03d}{file_type}"
                 self.db_manager.insert_thumbnail_data(file_name_uuid[:8], i, file_name_uuid, thumb_file_name)
 
-            self.db_manager.update_download_status(file_name_uuid[:8], 'Download complete', 'Complete')
+            #self.db_manager.update_download_status(file_name_uuid[:8], 'Download complete', 'Complete')
             self.logger.info("Thumbnails created successfully")
 
         except Exception as e:
             self.logger.error(f"Error during thumbnail creation: {e}")
-            self.db_manager.update_download_status(file_name_uuid[:8], 'Download complete', 'Thumbnail creation failed')
+            #self.db_manager.update_download_status(file_name_uuid[:8], 'Download complete', 'Thumbnail creation failed')
  

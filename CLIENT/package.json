@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "@myriadjs/core": "^0.0.942",
+    "@nuxtjs/supabase": "^1.1.4",
+    "@supabase/supabase-js": "^2.39.1",
     "@tresjs/core": "^3.0.1",
     "@tresjs/post-processing": "^0.3.0",
     "@tweakpane/plugin-essentials": "^0.2.0",
