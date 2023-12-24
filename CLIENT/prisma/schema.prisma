@@ -13,27 +13,4 @@ model info {
   public             Boolean   @default(true)
   video_name         String?
   video_description  String?
-  videos             videos[]
-}
-
-model videos {
-  video_id     String     @id
-  info_id      String
-  file_dir     String[]
-  file_path    String
-  file_name    String
-  file_type    String
-  info         info         @relation(fields: [info_id], references: [info_id])
-  thumbnails   thumbnails[]
-}
-
-model thumbnails {
-  thumbnail_id  Int     @id @default(autoincrement())
-  video_id      String
-  thumb_num     Int?
-  file_dir      String[]
-  file_path     String
-  file_name     String
-  file_type     String
-  videos        videos   @relation(fields: [video_id], references: [video_id])
 }
