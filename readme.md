@@ -8,6 +8,8 @@ PROCESS-VIDEO-XXX is a homage to WatchVideoByLink, aiming to improve my creation
 
 ## PROTOTYPE - DONE - NOW MVP
 
+<kbd><img src="./assets/TOP-LEVEL-ARCHITECTURE.png" title="TOP LEVEL ARCHITECTURE"/></kbd> 
+
 CLIENT SERVER:
 - UPLOAD VIDEO 
 - SELECT UPLOADED VIDEO
