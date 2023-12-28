@@ -22,10 +22,7 @@ class ImageProcessor:
                 thumb_file_name = f"{file_name_uuid}-thumbnail{i:03d}{file_type}"
                 self.db_manager.insert_thumbnail_data(file_name_uuid[:8], i, file_name_uuid, thumb_file_name)
 
-            #self.db_manager.update_download_status(file_name_uuid[:8], 'Download complete', 'Complete')
             self.logger.info("Thumbnails created successfully")
 
         except Exception as e:
-            self.logger.error(f"Error during thumbnail creation: {e}")
-            #self.db_manager.update_download_status(file_name_uuid[:8], 'Download complete', 'Thumbnail creation failed')
- 
+            self.logger.error(f"Error during thumbnail creation: {e}") 
