@@ -6,7 +6,7 @@ While WatchVideoByLink has many flaws, some more obvious than others, at the tim
 
 PROCESS-VIDEO-XXX is a homage to WatchVideoByLink, aiming to improve my creation from scratch, developing something I can track and maintain until I die or lose interest.
 
-## PROTOTYPE - DONE - NOW MVP
+## STILL PROTOTYPING ... THINGS MAY CHANGE
 
 <kbd><img src="./assets/TOP-LEVEL-ARCHITECTURE.png" title="TOP LEVEL ARCHITECTURE"/></kbd> 
 
@@ -14,6 +14,7 @@ CLIENT SERVER:
 - UPLOAD VIDEO 
 - SELECT UPLOADED VIDEO
 - WATCH UPLOADED VIDEO
+- CUSTOM VIDEO PLAYER
 - PRISMA (CONNECT TO PSQL DATABASE)
 
 STREAM SERVER:
