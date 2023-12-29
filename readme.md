@@ -33,3 +33,17 @@ PSQL DATABASE:
 - INFO
 - VIDEOS
 - THUMBNAILS
+
+## Start Containers 
+
+```
+supabase start
+docker-compose up --build
+```
+
+## Stop Containers
+
+```
+supabase stop
+docker-compose down -v   
+```
