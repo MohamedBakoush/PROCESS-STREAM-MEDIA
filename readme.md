@@ -44,6 +44,13 @@ docker-compose up --build
 ## Stop Containers
 
 ```
-supabase stop
+supabase stop 
+docker-compose down 
+```
+
+## Stop Containers + Delete Volumes
+
+```
+supabase stop --no-backup
 docker-compose down -v   
 ```
