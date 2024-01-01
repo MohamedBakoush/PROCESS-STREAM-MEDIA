@@ -1,13 +1,11 @@
-<template>
-    <div>
-        <input type="file" @change="handleFileChange" multiple />
-        <button @click="uploadFile">Upload</button>
-    </div>
-</template>
-  
 <script setup> 
     const selectedFiles = ref(null);
     const supabaseUser = useSupabaseUser();
+
+    const emit = defineEmits(['close']);
+    const closeOverlay = () => {
+        emit('close');
+    };
 
     function handleFileChange(event) {
         selectedFiles.value = Array.from(event.target.files);
@@ -40,3 +38,17 @@
         } 
     }
 </script>
+
+<template>
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-75 flex justify-center items-center">
+        <div class="bg-white p-4 rounded-lg shadow-lg">
+            <input type="file" @change="handleFileChange" multiple />
+            <button @click="uploadFile" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Upload
+            </button>
+            <button @click="closeOverlay" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                Close
+            </button>
+        </div>
+    </div>
+</template>

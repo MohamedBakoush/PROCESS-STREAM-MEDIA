@@ -1,4 +1,11 @@
 <script setup lang="ts"> 
+
+import Upload from '@/components/video/upload.vue';
+let isUploadOverlayVisible = ref(false);
+const toggleUploadOverlay = () => {
+    isUploadOverlayVisible.value = !isUploadOverlayVisible.value;
+};
+
 interface InfoData {
     info_id: string;
     supabase_user_id: string;
@@ -40,6 +47,10 @@ const selectVideo = (videoId: string) => {
     router.push({ path: '/watch', query: { v: videoId } });
 };
 
+const getThumbnail = (videoId: string, thumbNum: number) => {
+    return `http://localhost:1935/watch?v=${videoId}&t=${thumbNum}`;
+};
+
 const signOut = async () => {
     await supabaseClient.auth.signOut();
     infoData.value = []; // Clear user data on sign out
@@ -56,12 +67,26 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <button @click="signOut">SIGN OUT</button>
+    <div class="max-h-screen overflow-auto">
+        <button @click="signOut" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            SIGN OUT
+        </button>
 
-        <button @click="router.push({ path: '/upload' })">Upload Videos</button>
-        <div v-for="info in infoData" :key="info.info_id">
-            <p style="cursor: pointer;" @click="selectVideo(info.info_id)">{{ info.video_name }}</p>
-        </div> 
+        <button @click="toggleUploadOverlay" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
+            Upload Videos
+        </button>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            <div class="rounded overflow-hidden shadow-lg" style="cursor: pointer;" v-for="info in infoData" :key="info.info_id"  @click="selectVideo(info.info_id)">
+                <img :src="getThumbnail(info.info_id, 1)" alt="video thumbnail" class="w-full h-48 object-cover">
+                <div class="px-6 py-4">
+                    <p class="font-bold text-xl mb-2">
+                        {{ info.video_name }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <Upload v-if="isUploadOverlayVisible" @close="toggleUploadOverlay" />
     </div>
 </template>
