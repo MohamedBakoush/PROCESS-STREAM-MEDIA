@@ -1,5 +1,5 @@
 {
-  "name": "jour-xxx",
+  "name": "client",
   "private": true,
   "engines": {
     "node": "20.x"
