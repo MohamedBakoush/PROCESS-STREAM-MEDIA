@@ -4,7 +4,7 @@
 
 While WatchVideoByLink has many flaws, some more obvious than others, at the time of creation, I marvelled at it as my fine work, but as of now (7 Dec 2023), it haunts me. As it's an application that I like to use but hate to like, its sucks energy when downloading; the design is only optimal for desktop users with a bunch more features one can nitpick on.
 
-PROCESS-VIDEO-XXX is a homage to WatchVideoByLink, aiming to improve my creation from scratch, developing something I can track and maintain until I die or lose interest.
+PROCESS-STREAM-MEDIA is a homage to WatchVideoByLink, aiming to improve my creation from scratch, developing something I can track and maintain until I die or lose interest.
 
 ## STILL PROTOTYPING ... THINGS MAY CHANGE
 
