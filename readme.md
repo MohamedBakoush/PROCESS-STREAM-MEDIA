@@ -34,6 +34,9 @@ PSQL DATABASE:
 - VIDEOS
 - THUMBNAILS
 
+## Before Start
+In `.env`, replace `SUPABASE_KEY="xxx"` with anon key provided by supabase. https://supabase.com/docs/guides/cli/local-development
+ 
 ## Start Containers 
 
 ```
