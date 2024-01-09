@@ -5,14 +5,39 @@ const isSignUp = ref(false)
 const loggedIn = ref(false)
 const client = useSupabaseClient()
 
+const supabaseUser = useSupabaseUser();
+const router = useRouter();
+
 const signUp = async () => {
-  const { user, error } = await client.auth.signUp({
-    email: email.value,
-    password: password.value
-  })
-  loggedIn.value = true;
-  if (error) console.log(error) 
-}
+  try {
+    const { user, error } = await client.auth.signUp({
+      email: email.value,
+      password: password.value
+    });
+
+    if (user) {
+      console.log('User signed up:', user);
+    }
+
+    if (error) {
+      console.log(error);
+      return;
+    } 
+  } catch (err) {
+    console.error('Fetch error:', err);
+  } finally {
+
+    console.log(supabaseUser.value.id);
+    const response = await fetch(`/api/addUser?supabase_user_id=${supabaseUser.value.id}`);
+
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    loggedIn.value = true;
+  }
+};
 
 const login = async () => {
   const { user, error } = await client.auth.signInWithPassword({
@@ -23,14 +48,9 @@ const login = async () => {
   if (error) console.log(error)  
 }
 
-const user = useSupabaseUser();
-const router = useRouter();
-
 onMounted(() => {
   watchEffect(() => {
-    console.log("User authenticated:", user.value);
-    console.log(router);
-    if (user.value) {
+    if (supabaseUser.value) {
       router.push('/');
     }
   });

@@ -1,49 +1,61 @@
 import psycopg2  
+from psycopg2 import pool
 import os  
 
 class DatabaseManager:
     def __init__(self, logger):
         self.logger = logger
-        self.db_connection = self.get_db_connection()
+        self.db_pool = self.get_db_pool()
+        self.temp_storage = {}
 
-    def get_db_connection(self):
+    def get_db_pool(self):
         try:
-            conn = psycopg2.connect(
+            return psycopg2.pool.SimpleConnectionPool(
+                1,  # minconn
+                10,  # maxconn
                 host=os.getenv('POSTGRES_HOST'),
                 user=os.getenv('POSTGRES_USER'),
                 password=os.getenv('POSTGRES_PASSWORD'),
                 dbname=os.getenv('POSTGRES_DB')
             )
-            return conn
         except Exception as e:
-            self.logger.error(f"Error connecting to the database: {e}")
+            self.logger.error(f"Error creating the database connection pool: {e}")
             return None
 
     def execute_query(self, query, params, success_message=None):
-        if self.db_connection:
+        connection = self.db_pool.getconn()
+        if connection:
             try:
-                with self.db_connection.cursor() as cursor:
+                with connection, connection.cursor() as cursor:
                     cursor.execute(query, params)
-                    self.db_connection.commit()
+                    connection.commit()
                     if success_message:
                         self.logger.info(success_message)
             except Exception as e:
                 self.logger.error(f"Database error: {e}")
-                self.db_connection.rollback()
+                connection.rollback()
+            finally:
+                self.db_pool.putconn(connection)
         else:
-            self.logger.error("Database connection is not established.")
+            self.logger.error("Unable to get a database connection from the pool.")
 
-    def insert_video_info_data(self, info_id, supabase_user_id, public, video_name, video_description):
-        query = "INSERT INTO info (info_id, supabase_user_id, public, video_name, video_description) VALUES (%s, %s, %s, %s, %s) RETURNING info_id"
-        params = (info_id, supabase_user_id, public, video_name, video_description)
-        self.execute_query(query, params, "Inserted video info data")
+    def execute_video_user_id_data_insert(self, video_id, video_title, video_description, video_directory, video_path, video_name, video_type, auto_generated_thumbnail_names, auto_generated_thumbnail_type, auto_generated_thumbnail_num, supabase_user_id):
+         
+        supabase_user_id_modified = supabase_user_id.replace('-', '_')
+        TableName = "video_" + supabase_user_id_modified
 
-    def insert_video_data(self, video_id, info_id, file_name_uuid):
-        query = "INSERT INTO videos (video_id, info_id, file_dir, file_path, file_name, file_type) VALUES (%s, %s, %s, %s, %s, %s)"
-        params = (video_id, info_id, [], file_name_uuid, f"{file_name_uuid}.mp4", 'video/mp4')
-        self.execute_query(query, params, "Inserted video data")
+        query = f"""
+            INSERT INTO {TableName} (
+                video_id, video_title, video_description, video_directory, video_path,
+                video_name, video_type, auto_generated_thumbnail_names, 
+                auto_generated_thumbnail_type, auto_generated_thumbnail_num, supabase_user_id
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
 
-    def insert_thumbnail_data(self, video_id, thumb_num, file_path, thumb_file_name):
-        query = "INSERT INTO thumbnails (video_id, thumb_num, file_dir, file_path, file_name, file_type) VALUES ( %s, %s, %s, %s, %s, 'image/jpeg')"
-        params = (video_id, thumb_num, [], file_path, thumb_file_name)
-        self.execute_query(query, params, "Inserted thumbnail data")
+        params = (
+            video_id, video_title, video_description, video_directory, video_path,
+            video_name, video_type, auto_generated_thumbnail_names, 
+            auto_generated_thumbnail_type, auto_generated_thumbnail_num, supabase_user_id
+        )
+
+        self.execute_query(query, params, f"Inserted data into {TableName} table")

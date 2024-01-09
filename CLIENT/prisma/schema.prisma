@@ -7,10 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model info {
-  info_id            String    @id @default(uuid()) // Assuming UUIDs for info_id
-  supabase_user_id   String
-  public             Boolean   @default(true)
-  video_name         String?
-  video_description  String?
+model profile {
+  supabase_user_id            String    @id @default(uuid()) // Assuming UUIDs for supabase_user_id
 }

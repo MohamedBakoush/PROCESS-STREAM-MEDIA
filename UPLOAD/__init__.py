@@ -45,7 +45,7 @@ def upload_file():
 
         # Initialize DatabaseManager which also manages the DB connection
         db_manager = DatabaseManager(app.logger)
-        if not db_manager.db_connection:
+        if not db_manager.db_pool:
             raise Exception("Failed to connect to the database")
 
         # Initialize other classes
@@ -57,8 +57,8 @@ def upload_file():
         video_processor.ffmpeg_progress(temp_path, app.config['UPLOAD_FOLDER'], supabase_user_id)
 
         # Close the database connection
-        db_manager.db_connection.close()
-        
+        db_manager.db_pool.closeall()
+
         return jsonify({'message': 'File successfully uploaded'}), 200
 
     except Exception as e:

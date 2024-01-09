@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <videoPlayer :src="'http://localhost:1935/watch?v=' + useRoute().query.v" />
+    <videoPlayer :src="'http://localhost:1935/watch?user=' + useRoute().query.user + '&v=' + useRoute().query.v" />
 </template>

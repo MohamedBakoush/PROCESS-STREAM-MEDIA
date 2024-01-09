@@ -41,12 +41,13 @@ class VideoProcessor:
 
     def handle_successful_encoding(self, file_path, output_path, output_file, file_name_uuid, supabase_user_id):
         try:
-            fileName = file_path.split('/').pop().split('.')[0];
+            file_title = file_path.split('/').pop().split('.')[0];
             os.remove(file_path)
-            self.logger.info(f"Original file deleted: {file_path}")
-            self.db_manager.insert_video_info_data(file_name_uuid[:8], supabase_user_id, True, fileName, "Description")
-            self.db_manager.insert_video_data(file_name_uuid[:8], file_name_uuid[:8], file_name_uuid)
-            self.image_processor.create_thumbnails(output_file, output_path, file_name_uuid)
+            self.logger.info(f"Original file deleted: {file_path}") 
+            
+            # Create thumbnails
+            self.image_processor.create_thumbnails(output_file, output_path, file_name_uuid, file_title, supabase_user_id)
+
         except OSError as e:
             self.logger.error(f"Error deleting original file: {e}")
 

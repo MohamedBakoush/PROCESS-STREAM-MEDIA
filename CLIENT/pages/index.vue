@@ -7,11 +7,10 @@ const toggleUploadOverlay = () => {
 };
 
 interface InfoData {
-    info_id: string;
-    supabase_user_id: string;
-    public: boolean;
-    video_name?: string;
-    video_description?: string; 
+    video_id: string;
+    video_title: string;
+    video_description: boolean; 
+    auto_generated_thumbnail_num: number;
 }
 
 const infoData = ref<InfoData[]>([]);
@@ -33,7 +32,7 @@ const fetchInfoData = async () => {
     loading.value = true;
     try {
         const userId = supabaseUser.value.id;
-        const response = await fetch(`/api/info?supabase_user_id=${userId}`);
+        const response = await fetch(`/api/availableVideos?supabase_user_id=${userId}`);
         if (!response.ok) throw new Error('Failed to fetch data');
         infoData.value = await response.json();
     } catch (err) {
@@ -44,11 +43,11 @@ const fetchInfoData = async () => {
 };
 
 const selectVideo = (videoId: string) => {
-    router.push({ path: '/watch', query: { v: videoId } });
+    router.push({ path: '/watch', query: { user: supabaseUser.value.id, v: videoId } });
 };
 
 const getThumbnail = (videoId: string, thumbNum: number) => {
-    return `http://localhost:1935/watch?v=${videoId}&t=${thumbNum}`;
+    return `http://localhost:1935/watch?user=${supabaseUser.value.id}&v=${videoId}&t=${thumbNum}`;
 };
 
 const signOut = async () => {
@@ -77,11 +76,11 @@ onMounted(() => {
         </button>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            <div class="rounded overflow-hidden shadow-lg" style="cursor: pointer;" v-for="info in infoData" :key="info.info_id"  @click="selectVideo(info.info_id)">
-                <img :src="getThumbnail(info.info_id, 1)" alt="video thumbnail" class="w-full h-48 object-cover">
+            <div class="rounded overflow-hidden shadow-lg" style="cursor: pointer;" v-for="info in infoData" :key="info.video_id"  @click="selectVideo(info.video_id)">
+                <img :src="getThumbnail(info.video_id, 0)" alt="video thumbnail" class="w-full h-48 object-cover">
                 <div class="px-6 py-4">
                     <p class="font-bold text-xl mb-2">
-                        {{ info.video_name }}
+                        {{ info.video_title }}
                     </p>
                 </div>
             </div>
